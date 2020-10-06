@@ -12,12 +12,16 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DashboardViewComponent } from './views/dashboard-view/dashboard-view/dashboard-view.component';
+import { LoginViewComponent } from './views/login-view/login-view/login-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OptimoFooterComponent,
     OptimoNavComponent,
+    DashboardViewComponent,
+    LoginViewComponent,
   ],
   imports: [
     BrowserModule,
