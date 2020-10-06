@@ -1,1 +1,20 @@
-<p>login-view works!</p>
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center" fxFlexFill>
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Log in</mat-card-title>
+    </mat-card-header>
+
+    <form class="example-form" [formGroup]="loginForm" (ngSubmit)="login()">
+      <mat-card-content>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Username" formControlName="userName">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input matInput type='password' placeholder="Password" formControlName="password">
+        </mat-form-field>
+      </mat-card-content>
+      <button mat-stroked-button color="primary" class="btn-block">Log in</button>
+    </form>
+  </mat-card>
+</div>

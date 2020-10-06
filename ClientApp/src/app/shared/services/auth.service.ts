@@ -9,21 +9,18 @@ import { UserInfo } from '../models/userInfo.model';
   providedIn: 'root'
 })
 export class AuthService {
-  public currentUser = new BehaviorSubject<UserInfo>(null)
+  private currentUserSubject = new BehaviorSubject<UserInfo>(null)
+  public currentUser: Observable<UserInfo>;
 
   constructor(
     private router: Router,
-    private authStorageHelper: AuthStorageHelperService) { }
-
-  currentUserValue() : UserInfo {
-    const user = this.authStorageHelper.getUserInfo()
-
-    if (user) {
-      this.currentUser.next(user)
-      return user
+    private authStorageHelper: AuthStorageHelperService) {
+      this.currentUserSubject = new BehaviorSubject<UserInfo>(this.authStorageHelper.getUserInfo());
+      this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    return null
+  currentUserValue() : UserInfo {
+    return this.currentUserSubject.value
   }
 
   async login(username: string, password: string) {
@@ -39,13 +36,14 @@ export class AuthService {
 
     fakeLoginReqSimulation.subscribe((user: UserInfo) => {
       this.authStorageHelper.setUserInfo(user)
-      this.currentUser.next(user)
+      this.currentUserSubject.next(user)
+      this.router.navigate(['/'])
     })
   }
 
   async logout() {
     this.authStorageHelper.removeUserInfo()
-    this.currentUser.next(null)
+    this.currentUserSubject.next(null)
     this.router.navigate(['login'])
   }
 }
