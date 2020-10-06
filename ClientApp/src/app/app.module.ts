@@ -32,6 +32,7 @@ import { LoginViewComponent } from './views/login-view/login-view/login-view.com
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { OptimoConfirmationDialogComponent } from './shared/components/dialogs/optimo-confirmation.dialog/optimo-confirmation.dialog.component'
 import { ReactiveFormsModule } from '@angular/forms';
+import { OptimoLoaderComponent } from './shared/components/layout/optimo-loader/optimo-loader.component';
 
 const materialModules = [
   MatButtonModule,
@@ -60,7 +61,8 @@ const materialModules = [
     OptimoNavComponent,
     DashboardViewComponent,
     LoginViewComponent,
-    OptimoConfirmationDialogComponent
+    OptimoConfirmationDialogComponent,
+    OptimoLoaderComponent
   ],
   imports: [
     BrowserModule,

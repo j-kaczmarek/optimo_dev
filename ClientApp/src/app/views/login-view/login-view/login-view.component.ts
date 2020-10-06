@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { OptimoConfirmationDialogComponent } from 'src/app/shared/components/dialogs/optimo-confirmation.dialog/optimo-confirmation.dialog.component';
+import { UserInfo } from 'src/app/shared/models/userInfo.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
   styleUrls: ['./login-view.component.sass']
 })
 export class LoginViewComponent implements OnInit {
+  isLoading: boolean = false
   loginForm = new FormGroup({
     userName: new FormControl(''),
     password: new FormControl(''),
@@ -43,7 +45,9 @@ export class LoginViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res: boolean) => {
       if (res) {
+        this.isLoading = true;
         this.authService.login(this.loginForm.value.userName, this.loginForm.value.password)
+        .subscribe((user: UserInfo) => this.isLoading = false)
       }
     })
   }

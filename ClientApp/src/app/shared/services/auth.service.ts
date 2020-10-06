@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
 import { AuthStorageHelperService } from '../helpers/auth-storage-helper.service';
 import { UserInfo } from '../models/userInfo.model';
 
@@ -23,7 +23,7 @@ export class AuthService {
     return this.currentUserSubject.value
   }
 
-  async login(username: string, password: string) {
+  login(username: string, password: string) : Observable<UserInfo> {
     const fakeUser = {
       id: '1',
       userName: username,
@@ -34,14 +34,16 @@ export class AuthService {
 
     const fakeLoginReqSimulation: Observable<UserInfo> = of(fakeUser).pipe(delay(1000))
 
-    fakeLoginReqSimulation.subscribe((user: UserInfo) => {
-      this.authStorageHelper.setUserInfo(user)
-      this.currentUserSubject.next(user)
-      this.router.navigate(['/'])
-    })
+    return fakeLoginReqSimulation
+      .pipe(map((user: UserInfo) => {
+        this.authStorageHelper.setUserInfo(user)
+        this.currentUserSubject.next(user)
+        this.router.navigate(['/'])
+        return user;
+    }))
   }
 
-  async logout() {
+  logout() {
     this.authStorageHelper.removeUserInfo()
     this.currentUserSubject.next(null)
     this.router.navigate(['login'])
